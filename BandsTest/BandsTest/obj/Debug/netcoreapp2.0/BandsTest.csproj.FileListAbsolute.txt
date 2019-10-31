@@ -1,0 +1,11 @@
+F:\Work\EnergyAustralia\CodingTest\BandsTest\BandsTest\bin\Debug\netcoreapp2.0\BandsTest.deps.json
+F:\Work\EnergyAustralia\CodingTest\BandsTest\BandsTest\bin\Debug\netcoreapp2.0\BandsTest.runtimeconfig.json
+F:\Work\EnergyAustralia\CodingTest\BandsTest\BandsTest\bin\Debug\netcoreapp2.0\BandsTest.runtimeconfig.dev.json
+F:\Work\EnergyAustralia\CodingTest\BandsTest\BandsTest\bin\Debug\netcoreapp2.0\BandsTest.dll
+F:\Work\EnergyAustralia\CodingTest\BandsTest\BandsTest\obj\Debug\netcoreapp2.0\BandsTest.csprojResolveAssemblyReference.cache
+F:\Work\EnergyAustralia\CodingTest\BandsTest\BandsTest\obj\Debug\netcoreapp2.0\BandsTest.csproj.CoreCompileInputs.cache
+F:\Work\EnergyAustralia\CodingTest\BandsTest\BandsTest\obj\Debug\netcoreapp2.0\BandsTest.AssemblyInfoInputs.cache
+F:\Work\EnergyAustralia\CodingTest\BandsTest\BandsTest\obj\Debug\netcoreapp2.0\BandsTest.AssemblyInfo.cs
+F:\Work\EnergyAustralia\CodingTest\BandsTest\BandsTest\bin\Debug\netcoreapp2.0\BandsTest.pdb
+F:\Work\EnergyAustralia\CodingTest\BandsTest\BandsTest\obj\Debug\netcoreapp2.0\BandsTest.dll
+F:\Work\EnergyAustralia\CodingTest\BandsTest\BandsTest\obj\Debug\netcoreapp2.0\BandsTest.pdb
