@@ -8,5 +8,5 @@ Uses [Json.NET](https://www.newtonsoft.com/json)
 This is a Visual Studio project, so it may be necessary to use VS to build and run this software.
 
 ## Authors & Acknowledgement
-Nicholas Fowler
-Newtonsoft for [Json.NET](https://www.newtonsoft.com/json)
+* Nicholas Fowler
+* Newtonsoft for [Json.NET](https://www.newtonsoft.com/json)
