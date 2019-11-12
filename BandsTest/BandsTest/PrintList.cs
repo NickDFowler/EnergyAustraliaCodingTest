@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
 using System.Text;
 
 namespace BandsTest
@@ -70,89 +71,35 @@ namespace BandsTest
             }
         }
 
-        public string ConcatenateName(string[] s) //Concatenate names with multiple words, add spaces, then trim extra characters
-        {
-            string name = "";
-            for (int i = 1; i < s.Length; i++)
-            {
-                name += s[i] + " ";
-            }
-            name = name.Trim('"', ' ');
-            return name;
 
-        }
-
-        public void LoadJson() //This function reads in the JSON file and parses the data to add to lists and display.
+        public void LoadJson() //This function reads the JSON text from the given URL and parses the data to add to lists and display.
         {
-            char[] delimiters = { ' ', ',', '\n', ':', };
-            using (StreamReader sr = new StreamReader("BandsAPI.json"))
+            using (WebClient wc = new WebClient())
             {
-                string currentLine = "";
-                bool isFest = false;
-                bool noFest = false;
-                string newFest = "";
-                string newLabel = "";
-                string newBand = "";
-                string[] lineSplit;
+                string json = "";
                 do
                 {
-                    currentLine = sr.ReadLine();
-                    lineSplit = currentLine.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
-                    if (lineSplit.Length > 1)
+                    try
                     {
-                        //Check if current line has data or is just a single character
-                        if (lineSplit[0] == "\"name\"" && !isFest && !noFest)
-                        {
-                            /* If the first word is "name", and it's neither already within festival block, or within a block of
-                             * bands with no festival, then the current line denotes a festival. Add the name to the festival
-                             * variable and set the festival status to true */
-
-                            string s = ConcatenateName(lineSplit);
-                            newFest = s;
-                            isFest = true;
-                        }
-                        else if ((lineSplit[0] == "\"name\"" && isFest) || (lineSplit[0] == "\"name\"" && noFest))
-                        {
-                            /* If the first word is "name", and it's either already within festival block, or within a block of 
-                             * bands with no festival, then the current line denotes a band. Add the name to the band variable */
-
-                            string s = ConcatenateName(lineSplit);
-                            if (s == "")
-                            {
-                                s = "No band shown";
-                            }
-                            newBand = s;
-                        }
-                        else if (lineSplit[0] == "\"recordLabel\"")
-                        {
-                            /* If the first word is "recordLabel", then the current line denotes a record label. Add the name
-                             * to the label variable then add the new data to the respective lists, as the label always 
-                             * appears last */
-                            string s = ConcatenateName(lineSplit);
-                            if (s == "")
-                            {
-                                s = "Independant";
-                            }
-                            newLabel = s;
-                            AddBandsFromList(newFest, newLabel, newBand);
-                        }
-                        else if (lineSplit[0] == "\"bands\"" && !isFest)
-                        {
-                            /* If the first word is "recordLabel", and it appears outside a festival block, it denotes a block
-                             * of bands with no festival. Change the required variable */
-                            noFest = true;
-                        }
+                        json = wc.DownloadString("http://eacodingtest.digital.energyaustralia.com.au/api/v1/festivals");
                     }
-                    else if (lineSplit[0] == "]")
+                    catch (WebException ex) { }
+
+                } while (json.Equals("") || json.Equals("\"\""));
+                List<ReadFestival> festivals = JsonConvert.DeserializeObject<List<ReadFestival>>(json);
+
+                foreach (ReadFestival f in festivals)
+                {
+                    foreach (ReadBand b in f.Bands)
                     {
-                        //This character only appears at the end of a block of bands, so use it to clear all variables
-                        isFest = false;
-                        noFest = false;
-                        newFest = "";
-                        newLabel = "";
-                        newBand = "";
+                        string s = b.RecordLabel;
+                        if (s == null)
+                        {
+                            s = "Independant";
+                        }
+                        AddBandsFromList(f.Name, s, b.Name);
                     }
-                } while (!sr.EndOfStream);
+                }
             }
         }
 
@@ -162,5 +109,17 @@ namespace BandsTest
             list.LoadJson();
             list.PrintBands();
         }
+    }
+
+    public class ReadFestival //Class for use in deserialising the JSON data
+    {
+        public string Name { get; set; }
+        public List<ReadBand> Bands { get; set; }
+    }
+
+    public class ReadBand //Class for use in deserialising the JSON data
+    {
+        public string Name { get; set; }
+        public string RecordLabel { get; set; }
     }
 }
